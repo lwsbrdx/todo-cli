@@ -13,8 +13,10 @@ func main() {
 		Name: "Todo",
 		Commands: []*cli.Command{
 			{
-				Name:   "list",
-				Action: commands.List,
+				Name:    "list",
+				Usage:   "List tasks",
+				Aliases: []string{"l"},
+				Action:  commands.List,
 			},
 		},
 	}
