@@ -21,9 +21,4 @@ func init() {
 
 	// Migrate the schema
 	DbService.Db.AutoMigrate(&models.Task{})
-
-	DbService.Db.Create(&models.Task{
-		Name:   "Hello, World!",
-		Status: models.Todo,
-	})
 }
