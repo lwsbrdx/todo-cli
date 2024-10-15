@@ -14,6 +14,11 @@ func List(_ *cli.Context) error {
 		return err
 	}
 
+	if len(tasks) == 0 {
+		fmt.Println("No tasks found")
+		return nil
+	}
+
 	for _, task := range tasks {
 		fmt.Println(task.String())
 	}
