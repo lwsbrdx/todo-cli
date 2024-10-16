@@ -10,6 +10,8 @@ type TaskStatus int
 
 func (t TaskStatus) String() string {
 	switch t {
+	case StatusEmpty:
+		return "Empty"
 	case Todo:
 		return "To do"
 	case Wip:
@@ -21,7 +23,8 @@ func (t TaskStatus) String() string {
 }
 
 const (
-	Todo TaskStatus = iota
+	StatusEmpty TaskStatus = iota
+	Todo
 	Wip
 	Done
 )
