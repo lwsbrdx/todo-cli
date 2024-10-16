@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"log"
 	"os"
 	"todo/models"
 	"todo/services"
@@ -19,9 +18,6 @@ func init() {
 	}
 	// TODO : faire en sorte que le chemin de la db soit configurable
 	dbName := cacheDir + "/todo.db"
-
-	log.Printf("Using database %s", dbName)
-
 	db, err := gorm.Open(sqlite.Open(dbName), &gorm.Config{})
 
 	if err != nil {
