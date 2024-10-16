@@ -10,7 +10,8 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name: "Todo",
+		Name:   "Todo",
+		Action: commands.List.Action,
 		Commands: []*cli.Command{
 			&commands.Add,
 			&commands.List,
