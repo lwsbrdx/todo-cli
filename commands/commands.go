@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"log"
+	"os"
 	"todo/models"
 	"todo/services"
 
@@ -11,7 +13,16 @@ import (
 var DbService = services.DbService{}
 
 func init() {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{}) // TODO: make it configurable + chemin de la db dans les dossiers temporaire
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		panic(err)
+	}
+	// TODO : faire en sorte que le chemin de la db soit configurable
+	dbName := cacheDir + "/todo.db"
+
+	log.Printf("Using database %s", dbName)
+
+	db, err := gorm.Open(sqlite.Open(dbName), &gorm.Config{})
 
 	if err != nil {
 		panic("failed to connect database")
