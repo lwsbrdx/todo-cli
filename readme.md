@@ -18,7 +18,7 @@ Todo List CLI is a command-line tool that allows you to create, modify, and dele
 
 * `todo add`: Create a new task
 * `todo update`: Modify an existing task
-* `todo delete`: Delete a task **(wip)**
+* `todo delete`: Delete a task
 * `todo list`: Display the list of tasks
 * `todo search`: Search for tasks by title or description **(wip)**
 
