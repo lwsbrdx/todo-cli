@@ -32,9 +32,9 @@ To use Todo List CLI, you first need to create a new task with the command `todo
 
 **Examples**
 
-* `todo add "Buy groceries"`: Create a new task with the title "Buy groceries"
-* `todo update 1 "Buy groceries tomorrow"`: Modify the task with ID 1 and the title "Buy groceries tomorrow"
-* `todo delete 1`: Delete the task with ID 1
+* `todo add --name "Buy groceries"`: Create a new task with the title "Buy groceries"
+* `todo update --id 1 --name "Buy groceries tomorrow"`: Modify the task with ID 1 and the title "Buy groceries tomorrow"
+* `todo delete --id 1`: Delete the task with ID 1
 * `todo list`: Display the list of tasks
 * `todo search "groceries"`: Search for tasks with the title or description "groceries"
 
