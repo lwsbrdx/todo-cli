@@ -36,6 +36,6 @@ type Task struct {
 }
 
 func (t *Task) String() string {
-	task2String := fmt.Sprintf("%d\t%s\t%s", t.ID, t.Name, t.Status)
+	task2String := fmt.Sprintf("%d\t%s\t%s", t.ID, t.Status, t.Name)
 	return task2String
 }
