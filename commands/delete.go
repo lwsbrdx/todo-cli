@@ -33,7 +33,12 @@ func delete(cCtx *cli.Context) error {
 		},
 	}
 
-	// TODO: check si la tâche existe avant de delete
+	if err := DbService.Db.First(task).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("task not found")
+		}
+		return err
+	}
 
 	if err := DbService.Db.Unscoped().Delete(task).Error; err != nil {
 		return err
