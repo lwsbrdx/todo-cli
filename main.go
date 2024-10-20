@@ -17,6 +17,7 @@ func main() {
 			&commands.List,
 			&commands.Update,
 			&commands.Delete,
+			&commands.Search,
 		},
 	}
 
