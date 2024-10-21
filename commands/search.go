@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"todo/helpers"
 	"todo/models"
 
 	"github.com/urfave/cli/v2"
@@ -27,9 +28,8 @@ func search(cCtx *cli.Context) error {
 		return nil
 	}
 
-	for _, task := range tasks {
-		fmt.Println(task.String())
-	}
+	tr := helpers.TasksRenderer{Tasks: tasks}
+	tr.Render()
 
 	return nil
 }

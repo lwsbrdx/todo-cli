@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"fmt"
 	"todo/flags"
+	"todo/helpers"
 	"todo/models"
 
 	"github.com/urfave/cli/v2"
@@ -45,7 +45,8 @@ func update(cCtx *cli.Context) error {
 		return err
 	}
 
-	fmt.Println(task.String())
+	tr := helpers.TasksRenderer{Tasks: []models.Task{task}}
+	tr.Render()
 
 	return nil
 }
