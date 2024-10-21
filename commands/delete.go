@@ -44,6 +44,6 @@ func delete(cCtx *cli.Context) error {
 		return err
 	}
 
-	fmt.Println("Task deleted")
+	fmt.Println("Task successfully deleted")
 	return list(cCtx)
 }
