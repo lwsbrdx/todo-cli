@@ -3,7 +3,7 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"todo/flags"
+	"strconv"
 	"todo/models"
 
 	"github.com/urfave/cli/v2"
@@ -15,21 +15,22 @@ var Delete = cli.Command{
 	Usage:   "Delete a task",
 	Aliases: []string{"d"},
 	Action:  delete,
-	Flags: []cli.Flag{
-		flags.NewTaskIDFlag(true),
-	},
 }
 
 func delete(cCtx *cli.Context) error {
-	id := cCtx.Int("id")
+	id := cCtx.Args().First()
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
 
-	if id == 0 {
+	if idInt == 0 {
 		return errors.New("task ID is required")
 	}
 
 	task := &models.Task{
 		Model: gorm.Model{
-			ID: uint(id),
+			ID: uint(idInt),
 		},
 	}
 
