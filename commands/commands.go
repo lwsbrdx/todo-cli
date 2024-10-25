@@ -30,5 +30,8 @@ func init() {
 	DbService.Db = db
 
 	// Migrate the schema
-	DbService.Db.AutoMigrate(&models.Task{})
+	DbService.Db.AutoMigrate(
+		&models.Task{},
+		&models.Project{},
+	)
 }
