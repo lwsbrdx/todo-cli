@@ -10,27 +10,26 @@ import (
 	"gorm.io/gorm"
 )
 
-var Delete = cli.Command{
+var DeleteTask = cli.Command{
 	Name:    "delete",
 	Usage:   "Delete a task",
 	Aliases: []string{"d"},
-	Action:  delete,
+	Action:  deleteTask,
 }
 
-func delete(cCtx *cli.Context) error {
-	id := cCtx.Args().First()
-	idInt, err := strconv.Atoi(id)
+func deleteTask(cCtx *cli.Context) error {
+	id, err := strconv.Atoi(cCtx.Args().First())
 	if err != nil {
 		return err
 	}
 
-	if idInt == 0 {
+	if id == 0 {
 		return errors.New("task ID is required")
 	}
 
 	task := &models.Task{
 		Model: gorm.Model{
-			ID: uint(idInt),
+			ID: uint(id),
 		},
 	}
 
@@ -46,5 +45,5 @@ func delete(cCtx *cli.Context) error {
 	}
 
 	fmt.Println("Task successfully deleted")
-	return list(cCtx)
+	return listTasks(cCtx)
 }

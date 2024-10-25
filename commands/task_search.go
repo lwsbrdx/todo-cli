@@ -8,14 +8,14 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var Search = cli.Command{
+var SearchTasks = cli.Command{
 	Name:    "search",
 	Aliases: []string{"s"},
 	Usage:   "Search tasks",
-	Action:  search,
+	Action:  searchTasks,
 }
 
-func search(cCtx *cli.Context) error {
+func searchTasks(cCtx *cli.Context) error {
 	searchedName := cCtx.Args().First()
 
 	var tasks []models.Task

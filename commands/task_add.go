@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var Add = cli.Command{
+var AddTask = cli.Command{
 	Name:    "add",
 	Usage:   "Add a task",
 	Aliases: []string{"a"},
@@ -16,10 +16,10 @@ var Add = cli.Command{
 		flags.NewTaskNameFlag(true),
 		flags.NewTaskStatusFlag(false),
 	},
-	Action: add,
+	Action: addTask,
 }
 
-func add(cCtx *cli.Context) error {
+func addTask(cCtx *cli.Context) error {
 	name := cCtx.String("name")
 	status := cCtx.Generic("status").(*flags.TaskStatusFlagValue).Status
 

@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"errors"
+	"strconv"
 	"todo/flags"
 	"todo/helpers"
 	"todo/models"
@@ -8,20 +10,22 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var Update = cli.Command{
+var UpdateTask = cli.Command{
 	Name:    "update",
 	Usage:   "Update a task",
 	Aliases: []string{"u"},
 	Flags: []cli.Flag{
-		flags.NewTaskIDFlag(true),
 		flags.NewTaskNameFlag(false),
 		flags.NewTaskStatusFlag(false),
 	},
-	Action: update,
+	Action: updateTask,
 }
 
-func update(cCtx *cli.Context) error {
-	id := cCtx.Int("id")
+func updateTask(cCtx *cli.Context) error {
+	id, err := strconv.Atoi(cCtx.Args().First())
+	if err != nil {
+		return errors.New("invalid task ID")
+	}
 
 	// Récupérer la task correspondante à l'ID
 	var task models.Task
