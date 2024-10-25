@@ -41,7 +41,7 @@ func delete(cCtx *cli.Context) error {
 		return err
 	}
 
-	if err := DbService.Db.Unscoped().Delete(task).Error; err != nil {
+	if err := DbService.Db.Delete(task).Error; err != nil {
 		return err
 	}
 
