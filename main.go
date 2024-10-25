@@ -27,6 +27,13 @@ func main() {
 					&commands.SearchTasks,
 				},
 			},
+			{
+				Name: "project",
+				Subcommands: []*cli.Command{
+					&commands.AddProject,
+					// &commands.ListProject,
+				},
+			},
 		},
 	}
 
