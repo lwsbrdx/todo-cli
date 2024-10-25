@@ -8,6 +8,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+/**
+ * Known issues :
+ *	- The arguments of a command has to be after the flags
+**/
 func main() {
 	app := &cli.App{
 		Name:    "Todo",
