@@ -9,6 +9,7 @@ import (
 	"todo/services"
 
 	"github.com/urfave/cli/v2"
+	"gorm.io/gorm/clause"
 )
 
 var UpdateTask = cli.Command{
@@ -18,6 +19,7 @@ var UpdateTask = cli.Command{
 	Flags: []cli.Flag{
 		flags.NewTaskNameFlag(false),
 		flags.NewTaskStatusFlag(false),
+		flags.NewProjectIDFlag(false),
 	},
 	Action: updateTask,
 }
@@ -30,7 +32,9 @@ func updateTask(cCtx *cli.Context) error {
 
 	// Récupérer la task correspondante à l'ID
 	var task models.Task
-	if err := services.DbInstance.Db.First(&task, id).Error; err != nil {
+	if err := services.DbInstance.Db.
+		Preload(clause.Associations).
+		First(&task, id).Error; err != nil {
 		return err
 	}
 
@@ -43,6 +47,17 @@ func updateTask(cCtx *cli.Context) error {
 	updatedTaskStatus := cCtx.Generic("status").(*flags.TaskStatusFlagValue).Status
 	if updatedTaskStatus != models.StatusEmpty && updatedTaskStatus != task.Status {
 		task.Status = updatedTaskStatus
+	}
+
+	updatedTaskProject := cCtx.Generic("project").(*flags.ProjectIDFlagValue).Project
+	if updatedTaskProject.ID != 0 && updatedTaskProject.ID != task.ProjectID {
+		err := services.DbInstance.Db.
+			Model(&task).
+			Association("Project").
+			Append(&updatedTaskProject)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Sauvegarder les modifications dans la base de données
