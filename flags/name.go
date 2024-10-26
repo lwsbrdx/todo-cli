@@ -10,3 +10,12 @@ func NewTaskNameFlag(required bool) cli.Flag {
 		Required: required,
 	}
 }
+
+func NewProjectNameFlag(required bool) cli.Flag {
+	return &cli.StringFlag{
+		Name:     "name",
+		Aliases:  []string{"n"},
+		Usage:    "Name of the project",
+		Required: required,
+	}
+}

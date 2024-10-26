@@ -1,10 +1,6 @@
 package models
 
-import (
-	"fmt"
-
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 type TaskStatus int
 
@@ -31,11 +27,8 @@ const (
 
 type Task struct {
 	gorm.Model
-	Name   string
-	Status TaskStatus
-}
-
-func (t *Task) String() string {
-	task2String := fmt.Sprintf("%d\t%s\t%s", t.ID, t.Status, t.Name)
-	return task2String
+	ProjectID uint
+	Project   Project
+	Name      string
+	Status    TaskStatus
 }

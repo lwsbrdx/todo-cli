@@ -2,24 +2,25 @@ package commands
 
 import (
 	"fmt"
-	"todo/helpers"
 	"todo/models"
+	"todo/renderers"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
 
-var Search = cli.Command{
+var SearchTasks = cli.Command{
 	Name:    "search",
 	Aliases: []string{"s"},
 	Usage:   "Search tasks",
-	Action:  search,
+	Action:  searchTasks,
 }
 
-func search(cCtx *cli.Context) error {
+func searchTasks(cCtx *cli.Context) error {
 	searchedName := cCtx.Args().First()
 
 	var tasks []models.Task
-	if err := DbService.Db.Where("name LIKE ?", "%"+searchedName+"%").Find(&tasks).Error; err != nil {
+	if err := services.DbInstance.Db.Where("name LIKE ?", "%"+searchedName+"%").Find(&tasks).Error; err != nil {
 		return err
 	}
 
@@ -28,7 +29,7 @@ func search(cCtx *cli.Context) error {
 		return nil
 	}
 
-	tr := helpers.TasksRenderer{Tasks: tasks}
+	tr := renderers.TasksRenderer{Tasks: tasks}
 	tr.Render()
 
 	return nil

@@ -8,17 +8,33 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+/**
+ * Known issues :
+ *	- The arguments of a command has to be after the flags
+**/
 func main() {
 	app := &cli.App{
 		Name:    "Todo",
-		Action:  commands.List.Action,
 		Version: "1.0.0",
+		Action:  commands.ListTasks.Action,
 		Commands: []*cli.Command{
-			&commands.Add,
-			&commands.List,
-			&commands.Update,
-			&commands.Delete,
-			&commands.Search,
+			{
+				Name: "task",
+				Subcommands: []*cli.Command{
+					&commands.ListTasks,
+					&commands.AddTask,
+					&commands.UpdateTask,
+					&commands.DeleteTask,
+					&commands.SearchTasks,
+				},
+			},
+			{
+				Name: "project",
+				Subcommands: []*cli.Command{
+					&commands.ListProjects,
+					&commands.AddProject,
+				},
+			},
 		},
 	}
 
