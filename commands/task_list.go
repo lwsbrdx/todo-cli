@@ -7,6 +7,7 @@ import (
 	"todo/services"
 
 	"github.com/urfave/cli/v2"
+	"gorm.io/gorm/clause"
 )
 
 var ListTasks = cli.Command{
@@ -20,6 +21,7 @@ func listTasks(_ *cli.Context) error {
 	var tasks []models.Task
 
 	if err := services.DbInstance.Db.
+		Preload(clause.Associations).
 		Find(&tasks).Error; err != nil {
 		return err
 	}

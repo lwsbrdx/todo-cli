@@ -16,6 +16,7 @@ var AddTask = cli.Command{
 	Flags: []cli.Flag{
 		flags.NewTaskNameFlag(true),
 		flags.NewTaskStatusFlag(false),
+		flags.NewProjectIDFlag(false),
 	},
 	Action: addTask,
 }
@@ -23,6 +24,7 @@ var AddTask = cli.Command{
 func addTask(cCtx *cli.Context) error {
 	name := cCtx.String("name")
 	status := cCtx.Generic("status").(*flags.TaskStatusFlagValue).Status
+	projectFlag := cCtx.Generic("project").(*flags.ProjectIDFlagValue)
 
 	if status == models.StatusEmpty {
 		status = models.Todo
@@ -33,6 +35,14 @@ func addTask(cCtx *cli.Context) error {
 		Status: status,
 	}
 	if err := services.DbInstance.Db.Create(&task).Error; err != nil {
+		return err
+	}
+
+	err := services.DbInstance.Db.
+		Model(&task).
+		Association("Project").
+		Append(&projectFlag.Project)
+	if err != nil {
 		return err
 	}
 
