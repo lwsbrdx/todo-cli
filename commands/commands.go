@@ -10,8 +10,6 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-var DbService = services.DbService{}
-
 func init() {
 	cacheDir, err := os.UserCacheDir()
 	if err != nil {
@@ -27,10 +25,10 @@ func init() {
 		panic("failed to connect database")
 	}
 
-	DbService.Db = db
+	services.DbInstance.Db = db
 
 	// Migrate the schema
-	DbService.Db.AutoMigrate(
+	services.DbInstance.Db.AutoMigrate(
 		&models.Task{},
 		&models.Project{},
 	)

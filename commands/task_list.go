@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"todo/models"
 	"todo/renderers"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -18,7 +19,8 @@ var ListTasks = cli.Command{
 func listTasks(_ *cli.Context) error {
 	var tasks []models.Task
 
-	if err := DbService.Db.Find(&tasks).Error; err != nil {
+	if err := services.DbInstance.Db.
+		Find(&tasks).Error; err != nil {
 		return err
 	}
 

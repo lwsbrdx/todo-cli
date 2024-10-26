@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"todo/models"
 	"todo/renderers"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -19,7 +20,7 @@ func searchTasks(cCtx *cli.Context) error {
 	searchedName := cCtx.Args().First()
 
 	var tasks []models.Task
-	if err := DbService.Db.Where("name LIKE ?", "%"+searchedName+"%").Find(&tasks).Error; err != nil {
+	if err := services.DbInstance.Db.Where("name LIKE ?", "%"+searchedName+"%").Find(&tasks).Error; err != nil {
 		return err
 	}
 

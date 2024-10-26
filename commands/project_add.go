@@ -4,6 +4,7 @@ import (
 	"log"
 	"todo/flags"
 	"todo/models"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -22,7 +23,7 @@ func addProject(cCtx *cli.Context) error {
 	name := cCtx.String("name")
 
 	project := models.Project{Name: name}
-	if err := DbService.Db.Create(&project).Error; err != nil {
+	if err := services.DbInstance.Db.Create(&project).Error; err != nil {
 		return err
 	}
 

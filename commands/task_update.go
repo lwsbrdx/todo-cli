@@ -6,6 +6,7 @@ import (
 	"todo/flags"
 	"todo/models"
 	"todo/renderers"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -29,7 +30,7 @@ func updateTask(cCtx *cli.Context) error {
 
 	// Récupérer la task correspondante à l'ID
 	var task models.Task
-	if err := DbService.Db.First(&task, id).Error; err != nil {
+	if err := services.DbInstance.Db.First(&task, id).Error; err != nil {
 		return err
 	}
 
@@ -45,7 +46,7 @@ func updateTask(cCtx *cli.Context) error {
 	}
 
 	// Sauvegarder les modifications dans la base de données
-	if err := DbService.Db.Save(&task).Error; err != nil {
+	if err := services.DbInstance.Db.Save(&task).Error; err != nil {
 		return err
 	}
 

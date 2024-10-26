@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"todo/models"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 	"gorm.io/gorm"
@@ -33,14 +34,14 @@ func deleteTask(cCtx *cli.Context) error {
 		},
 	}
 
-	if err := DbService.Db.First(task).Error; err != nil {
+	if err := services.DbInstance.Db.First(task).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return errors.New("task not found")
 		}
 		return err
 	}
 
-	if err := DbService.Db.Delete(task).Error; err != nil {
+	if err := services.DbInstance.Db.Delete(task).Error; err != nil {
 		return err
 	}
 

@@ -4,6 +4,7 @@ import (
 	"todo/flags"
 	"todo/models"
 	"todo/renderers"
+	"todo/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -27,8 +28,11 @@ func addTask(cCtx *cli.Context) error {
 		status = models.Todo
 	}
 
-	task := models.Task{Name: name, Status: status}
-	if err := DbService.Db.Create(&task).Error; err != nil {
+	task := models.Task{
+		Name:   name,
+		Status: status,
+	}
+	if err := services.DbInstance.Db.Create(&task).Error; err != nil {
 		return err
 	}
 
