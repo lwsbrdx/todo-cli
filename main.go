@@ -20,8 +20,8 @@ func main() {
 			{
 				Name: "task",
 				Subcommands: []*cli.Command{
-					&commands.AddTask,
 					&commands.ListTasks,
+					&commands.AddTask,
 					&commands.UpdateTask,
 					&commands.DeleteTask,
 					&commands.SearchTasks,
