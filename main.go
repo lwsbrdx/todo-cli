@@ -16,6 +16,7 @@ func main() {
 	app := &cli.App{
 		Name:    "Todo",
 		Version: "1.0.0",
+		Action:  commands.ListTasks.Action,
 		Commands: []*cli.Command{
 			{
 				Name: "task",
