@@ -30,8 +30,8 @@ func main() {
 			{
 				Name: "project",
 				Subcommands: []*cli.Command{
+					&commands.ListProjects,
 					&commands.AddProject,
-					// &commands.ListProject,
 				},
 			},
 		},
