@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"todo/flags"
-	"todo/helpers"
 	"todo/models"
+	"todo/renderers"
 
 	"github.com/urfave/cli/v2"
 )
@@ -49,7 +49,7 @@ func updateTask(cCtx *cli.Context) error {
 		return err
 	}
 
-	tr := helpers.TasksRenderer{Tasks: []models.Task{task}}
+	tr := renderers.TasksRenderer{Tasks: []models.Task{task}}
 	tr.Render()
 
 	return nil
