@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"todo/commands"
+	"todo/flags"
 
 	"github.com/urfave/cli/v2"
 )
@@ -17,6 +18,9 @@ func main() {
 		Name:    "Todo",
 		Version: "1.0.0",
 		Action:  commands.ListTasks.Action,
+		Flags: []cli.Flag{
+			flags.NewTrashedFlag(),
+		},
 		Commands: []*cli.Command{
 			{
 				Name: "task",

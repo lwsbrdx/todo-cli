@@ -1,8 +1,10 @@
 package commands
 
 import (
+	"errors"
 	"fmt"
 	"sort"
+	"todo/flags"
 	"todo/models"
 	"todo/renderers"
 	"todo/services"
@@ -15,12 +17,19 @@ var ListTasks = cli.Command{
 	Name:    "list",
 	Usage:   "List tasks",
 	Aliases: []string{"l"},
-	Action:  listTasks,
+	Flags: []cli.Flag{
+		flags.NewTrashedFlag(),
+	},
+	Action: listTasks,
 }
 
-func listTasks(_ *cli.Context) error {
-	var tasks []models.Task
+func listTasks(cCtx *cli.Context) error {
+	showTrashed := cCtx.Bool("trashed")
+	if showTrashed {
+		return listTrashedTasks(cCtx)
+	}
 
+	var tasks []models.Task
 	if err := services.DbInstance.Db.
 		Preload(clause.Associations).
 		Find(&tasks).Error; err != nil {
@@ -39,5 +48,24 @@ func listTasks(_ *cli.Context) error {
 	tr := renderers.TasksRenderer{Tasks: tasks}
 	tr.Render()
 
+	return nil
+}
+
+func listTrashedTasks(_ *cli.Context) error {
+	var tasks []models.Task
+	if err := services.DbInstance.Db.
+		Unscoped().
+		Preload(clause.Associations).
+		Where("deleted_at IS NOT NULL").
+		Find(&tasks).Error; err != nil {
+		return err
+	}
+
+	if len(tasks) == 0 {
+		return errors.New("No tasks found")
+	}
+
+	tr := renderers.TasksRenderer{Tasks: tasks}
+	tr.Render()
 	return nil
 }
