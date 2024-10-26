@@ -19,32 +19,38 @@ var DeleteTask = cli.Command{
 }
 
 func deleteTask(cCtx *cli.Context) error {
-	id, err := strconv.Atoi(cCtx.Args().First())
-	if err != nil {
-		return err
-	}
-
-	if id == 0 {
+	ids := cCtx.Args().Slice()
+	if len(ids) == 0 {
 		return errors.New("task ID is required")
 	}
 
-	task := &models.Task{
-		Model: gorm.Model{
-			ID: uint(id),
-		},
-	}
-
-	if err := services.DbInstance.Db.First(task).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("task not found")
+	tasksToDelete := []models.Task{}
+	for _, id := range ids {
+		taskID, err := strconv.Atoi(id)
+		if err != nil {
+			return err
 		}
+
+		// Check if task exists
+		task := models.Task{
+			Model: gorm.Model{
+				ID: uint(taskID),
+			},
+		}
+		if err := services.DbInstance.Db.First(&task).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return errors.New(fmt.Sprintf("task with ID %d not found", taskID))
+			}
+			return err
+		}
+
+		tasksToDelete = append(tasksToDelete, task)
+	}
+
+	// Soft deletes the tasks
+	if err := services.DbInstance.Db.Delete(tasksToDelete).Error; err != nil {
 		return err
 	}
 
-	if err := services.DbInstance.Db.Delete(task).Error; err != nil {
-		return err
-	}
-
-	fmt.Println("Task successfully deleted")
 	return listTasks(cCtx)
 }
