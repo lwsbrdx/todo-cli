@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"sort"
 	"todo/models"
 	"todo/renderers"
 	"todo/services"
@@ -30,6 +31,10 @@ func listTasks(_ *cli.Context) error {
 		fmt.Println("No tasks found")
 		return nil
 	}
+
+	sort.SliceStable(tasks, func(i, j int) bool {
+		return tasks[i].Status < tasks[j].Status
+	})
 
 	tr := renderers.TasksRenderer{Tasks: tasks}
 	tr.Render()
