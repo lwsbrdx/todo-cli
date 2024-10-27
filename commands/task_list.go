@@ -62,7 +62,7 @@ func listTrashedTasks(_ *cli.Context) error {
 	}
 
 	if len(tasks) == 0 {
-		return errors.New("No tasks found")
+		return errors.New("Trash is empty")
 	}
 
 	tr := renderers.TasksRenderer{Tasks: tasks}
