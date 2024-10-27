@@ -42,6 +42,10 @@ func listTasks(cCtx *cli.Context) error {
 	}
 
 	sort.SliceStable(tasks, func(i, j int) bool {
+		if tasks[i].Status == models.Wip {
+			return true
+		}
+
 		return tasks[i].Status < tasks[j].Status
 	})
 
