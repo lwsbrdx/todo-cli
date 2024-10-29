@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"log"
+	"fmt"
 	"todo/flags"
 	"todo/models"
 	"todo/services"
@@ -27,6 +27,6 @@ func addProject(cCtx *cli.Context) error {
 		return err
 	}
 
-	log.Printf("Project %s successfully created", name)
+	fmt.Printf("Project %s successfully created\n", name)
 	return nil
 }
