@@ -19,20 +19,32 @@ var ListTasks = cli.Command{
 	Aliases: []string{"l"},
 	Flags: []cli.Flag{
 		flags.NewTrashedFlag(),
+		flags.NewShowAllFlag(),
 	},
 	Action: listTasks,
 }
 
 func listTasks(cCtx *cli.Context) error {
 	showTrashed := cCtx.Bool("trashed")
+	showAll := cCtx.Bool("show-all")
+
 	if showTrashed {
 		return listTrashedTasks(cCtx)
 	}
 
+	request := services.DbInstance.Db.Preload(clause.Associations)
+	if !showAll {
+		request = request.Where(
+			"status IN ?",
+			[]models.TaskStatus{
+				models.Todo,
+				models.Wip,
+			},
+		)
+	}
+
 	var tasks []models.Task
-	if err := services.DbInstance.Db.
-		Preload(clause.Associations).
-		Find(&tasks).Error; err != nil {
+	if err := request.Find(&tasks).Error; err != nil {
 		return err
 	}
 

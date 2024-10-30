@@ -14,6 +14,7 @@ var GlobalCommand = cli.Command{
 	Flags: []cli.Flag{
 		flags.NewTrashedFlag(),
 		flags.NewEmptyTrashFlag(),
+		flags.NewShowAllFlag(),
 	},
 }
 
@@ -27,10 +28,6 @@ func global(cCtx *cli.Context) error {
 			Delete(&models.Task{}).Error; err != nil {
 			return err
 		}
-	}
-
-	if shouldEmptyTrash {
-		cCtx.Set("trashed", "true")
 	}
 
 	return listTasks(cCtx)
