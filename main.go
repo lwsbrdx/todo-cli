@@ -34,6 +34,7 @@ func main() {
 				Subcommands: []*cli.Command{
 					&commands.ListProjects,
 					&commands.AddProject,
+					&commands.UpdateProject,
 					&commands.DeleteProject,
 				},
 			},
