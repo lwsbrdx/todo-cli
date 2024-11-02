@@ -20,7 +20,8 @@ func main() {
 		Flags:   commands.GlobalCommand.Flags,
 		Commands: []*cli.Command{
 			{
-				Name: "task",
+				Name:   "task",
+				Action: commands.ListTasks.Action,
 				Subcommands: []*cli.Command{
 					&commands.ListTasks,
 					&commands.AddTask,
@@ -30,7 +31,8 @@ func main() {
 				},
 			},
 			{
-				Name: "project",
+				Name:   "project",
+				Action: commands.ListProjects.Action,
 				Subcommands: []*cli.Command{
 					&commands.ListProjects,
 					&commands.AddProject,
